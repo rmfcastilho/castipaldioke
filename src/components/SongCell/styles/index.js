@@ -33,19 +33,20 @@ const SongTitle = styled.h3`
   font-weight: bold;
   margin: 0;
   text-align: left;
-  color: #0a1380;
+  color: #464648;
 `;
 
 const SongArtist = styled.p`
   font-size: 1rem;
   margin: 0;
   text-align: left;
-  color: #5d6eff;
+  color: #7e7e80;
 `;
 
 const SongCode = styled.span`
   font-size: 1.5rem;
   text-align: left;
+  color: #464648;
 `;
 
 export {

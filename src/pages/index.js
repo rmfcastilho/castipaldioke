@@ -28,7 +28,7 @@ const IndexPage = () => {
       <GlobalStyle />
       <Header onChangeSearch={onChangeSearch} />
       <List
-        height={800}
+        height={680}
         itemCount={songList.length}
         itemSize={82}
         width="100%"
