@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { FixedSizeList as List } from 'react-window';
 
 import { songs } from "../data";
-import { Header, SongCell } from "../components";
+import { Header, SongCell, InnerHeader } from "../components";
 import { MainWrapper, SongCellWrapper, GlobalStyle } from "../styles";
 
 const IndexPage = () => {
@@ -27,6 +27,7 @@ const IndexPage = () => {
     <MainWrapper>
       <GlobalStyle />
       <Header onChangeSearch={onChangeSearch} />
+      <InnerHeader />
       <List
         height={680}
         itemCount={songList.length}

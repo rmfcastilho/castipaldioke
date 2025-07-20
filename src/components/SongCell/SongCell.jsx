@@ -9,7 +9,7 @@ const SongCell = ({ artist, code, title }) => (
       <SongArtist>{artist}</SongArtist>
     </SongCellMeta>
 
-    <SongCode>Código: {code}</SongCode>
+    <SongCode>{code}</SongCode>
   </SongCellWrapper>
 );
 

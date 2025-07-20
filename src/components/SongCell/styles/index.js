@@ -7,16 +7,12 @@ const SongCellWrapper = styled.div`
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
-  backdrop-filter: blur(6px);
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.5s;
-  user-select: none;
-  font-weight: bolder;
-  margin-bottom: 1rem;
-  background-color: hsla(260, 25%, 95%, 0.45);
-  backdrop-filter: blur(1rem);
-  
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(9, 7, 157, 0.3);
+
   &:hover {
     border: 1px solid black;
   }
@@ -29,24 +25,46 @@ const SongCellMeta = styled.div`
 `;
 
 const SongTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   margin: 0;
   text-align: left;
-  color: #464648;
+  color: rgb(0, 64, 156);
+  max-width: 15em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 500px) {
+    max-width: 20em;
+  }
+
+  @media (min-width: 760px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const SongArtist = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
   text-align: left;
-  color: #7e7e80;
+  color: rgb(0, 64, 156);
+
+  @media (min-width: 760px) {
+    font-size: 1rem;
+  }
 `;
 
 const SongCode = styled.span`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  color: #0034f2;
   text-align: left;
-  color: #464648;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+
+  @media (min-width: 760px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export {

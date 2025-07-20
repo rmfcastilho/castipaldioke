@@ -10,12 +10,16 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const HeaderInput = styled.input`
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  width: 70%;
+  border: 1px solid rgb(0, 64, 156);
+  width: 95%;
   font-size: 1rem;
-  font-weight: bold;
-  color: #666;
+  font-weight: 550;
   background-color: white;
+  color: rgb(0, 64, 156);
+
+  @media (min-width: 760px) {
+    width: 70%;
+  }
 `;

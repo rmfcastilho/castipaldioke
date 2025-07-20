@@ -7,9 +7,14 @@ export const MainWrapper = styled.main`
   justify-content: center;
   gap: 0.5rem;
   padding: 1rem;
-  width: 60%;
-  max-width: 800px;
   margin: 0 auto;
+  width: 95%;
+  min-width: 420px;
+
+  @media (min-width: 760px) {
+    width: 60%;
+    max-width: 800px;
+  }
 `;
 
 export const SongCellWrapper = styled.div`
