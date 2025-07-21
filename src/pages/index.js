@@ -26,13 +26,23 @@ const IndexPage = () => {
     setCurrentView(view);
   }
 
-  const onChangeSearch = (e) => {
-    const { value } = e.target;
+  const normalize = (str) =>
+    str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9 ]/gi, "")
+      .toLowerCase();
 
-    setSongList(songs.filter((song) => (
-      song.title.toLowerCase().includes(value.toLowerCase()) || song.artist.toLowerCase().includes(value.toLowerCase())
-    )));
-  }
+  const onChangeSearch = (e) => {
+    const normalizedSearch = normalize(e.target.value);
+
+    setSongList(
+      songs.filter((song) =>
+        normalize(song.title).includes(normalizedSearch) ||
+        normalize(song.artist).includes(normalizedSearch)
+      )
+    );
+  };
 
   return (
     <MainWrapper>
