@@ -11,8 +11,20 @@ const ListTypeWrapper = styled.div`
 `;
 
 const ListTypeOption = styled.span`
-  cursor: pointer;
+  cursor: ${({ isActive }) => !isActive ? 'pointer' : 'default'};
   font-size: 1.5rem;
+  font-weight: ${({ isActive }) => isActive ? 'bold' : 'normal'};
+  margin: 0;
+  text-align: left;
+  color: ${({ isActive }) => isActive ? 'rgba(0, 64, 156, 1)' : 'rgba(0, 64, 156, 0.5)'};
+  transition: all 0.2s ease-in-out;
+
+  ${({ isActive }) => !isActive && `
+    &:hover {
+      transform: scale(1.05);
+      color: rgb(3, 106, 246);
+    }
+  `}
 `;
 
 export {

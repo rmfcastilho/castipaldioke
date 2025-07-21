@@ -2,7 +2,7 @@ import "@fontsource-variable/quicksand";
 import React, { useState } from "react"
 
 import { songs } from "../data";
-import { Header, SongCell, InnerHeader, ArtistList, SongList, ListTypeSelect } from "../components";
+import { Header, SongCell, InnerHeader, ArtistList, SongList, ListTypeSelect, ActiveFilterPill } from "../components";
 import { MainWrapper, GlobalStyle } from "../styles";
 
 const IndexPage = () => {
@@ -14,6 +14,12 @@ const IndexPage = () => {
     setSelectedArtist(artist);
     setCurrentView('songs');
     setSongList(songs.filter((song) => song.artist === artist));
+  }
+
+  const onResetArtist = () => {
+    setSelectedArtist(null);
+    setCurrentView('songs');
+    setSongList(songs);
   }
 
   const onSelectView = (view) => {
@@ -33,6 +39,7 @@ const IndexPage = () => {
       <GlobalStyle />
       <Header onChangeSearch={onChangeSearch} />
       <ListTypeSelect onChange={onSelectView} value={currentView} />
+      {selectedArtist && <ActiveFilterPill artist={selectedArtist} onResetArtist={onResetArtist} />}
       {currentView === 'songs' && <InnerHeader/>}
       {currentView === 'songs' ? <SongList songList={songList} /> : <ArtistList onSelectArtist={onSelectArtist} songList={songList} />}
     </MainWrapper>
