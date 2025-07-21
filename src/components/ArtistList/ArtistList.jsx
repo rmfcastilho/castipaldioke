@@ -1,6 +1,9 @@
 import React from "react"
 import { FixedSizeList as List } from 'react-window';
 
+import { ArtistListWrapper } from './styles';
+
+import InitialsMap from '../InitialsMap';
 import ArtistCell from '../ArtistCell';
 
 const ArtistList = ({ onSelectArtist, songList }) => {
