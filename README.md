@@ -33,6 +33,3 @@ use pretty much every day so that I could spin it up in an hour.
 I also use a virtualization library in this so I don't kill anyone's phone 
 by rendering over 10,000 songs at once, but they still get to have an 
 infinite scrolling list of songs.
-
-## What are the best practices you're putting in place?
-
