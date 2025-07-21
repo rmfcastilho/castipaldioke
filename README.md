@@ -1,49 +1,38 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal Starter
-</h1>
+# Castipaldioke
 
-## 🚀 Quick start
+## What is it?
 
-1.  **Create a Gatsby site.**
+We just bought a karaoke machine, and the catalog is pretty... old school.
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+Me being me, of course I decided to make a web app with a searchable list to 
+help the folks look for the songs they want to sing.
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+I got the song spreadsheet from the suppliers, wrote a script to make it a 
+JSON file, and the rest is history.
 
-2.  **Start developing.**
+## How to use it?
 
-    Navigate into your new site’s directory and start it up.
+Not sure you'd want to unless you specifically have the RAF Karaoke machine, 
+and this one is specific to us. However, you can [check the live thing out](castipaldioke.netlify.app) or 
+locally install and run it.
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+```js
+nvm use
+npm install
+npm run start
+```
 
-3.  **Open the code and start customizing!**
+## Technical reasoning
 
-    Your site is now running at http://localhost:8000!
+__Why did I choose React and Gatsby?__ You might ask.
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+I thought long and hard for about 2 seconds on how to serve my maybe 3 or 4 
+concurrent users once a month, and I decided to build it with something I 
+use pretty much every day so that I could spin it up in an hour.
 
-4.  **Learn more**
+I also use a virtualization library in this so I don't kill anyone's phone 
+by rendering over 10,000 songs at once, but they still get to have an 
+infinite scrolling list of songs.
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+## What are the best practices you're putting in place?
 
-## 🚀 Quick start (Netlify)
-
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
-
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
