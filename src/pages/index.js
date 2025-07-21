@@ -1,13 +1,24 @@
 import "@fontsource-variable/quicksand";
 import React, { useState } from "react"
-import { FixedSizeList as List } from 'react-window';
 
 import { songs } from "../data";
-import { Header, SongCell, InnerHeader } from "../components";
-import { MainWrapper, SongCellWrapper, GlobalStyle } from "../styles";
+import { Header, SongCell, InnerHeader, ArtistList, SongList, ListTypeSelect } from "../components";
+import { MainWrapper, GlobalStyle } from "../styles";
 
 const IndexPage = () => {
   const [songList, setSongList] = useState(songs);
+  const [selectedArtist, setSelectedArtist] = useState(null);
+  const [currentView, setCurrentView] = useState('songs');
+
+  const onSelectArtist = (artist) => {
+    setSelectedArtist(artist);
+    setCurrentView('songs');
+    setSongList(songs.filter((song) => song.artist === artist));
+  }
+
+  const onSelectView = (view) => {
+    setCurrentView(view);
+  }
 
   const onChangeSearch = (e) => {
     const { value } = e.target;
@@ -17,26 +28,13 @@ const IndexPage = () => {
     )));
   }
 
-  const Row = ({ index, style }) => (
-    <div style={{...style, margin: '0.5rem 0'}}>
-      <SongCell {...songList[index]} />
-    </div>
-  );
-
   return (
     <MainWrapper>
       <GlobalStyle />
       <Header onChangeSearch={onChangeSearch} />
-      <InnerHeader />
-      <List
-        height={680}
-        itemCount={songList.length}
-        itemSize={82}
-        width="100%"
-        outerElementType={SongCellWrapper}
-      >
-        {Row}
-      </List>
+      <ListTypeSelect onChange={onSelectView} value={currentView} />
+      {currentView === 'songs' && <InnerHeader/>}
+      {currentView === 'songs' ? <SongList songList={songList} /> : <ArtistList onSelectArtist={onSelectArtist} songList={songList} />}
     </MainWrapper>
   )
 }
