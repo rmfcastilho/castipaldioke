@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 import InitialButton from "./_components/InitialButton";
 import { InitialMapWrapper } from "./styles";
@@ -6,11 +6,15 @@ import { InitialMapWrapper } from "./styles";
 const ALPHABET = ["#", ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 const EMPTY_MAP = new Map();
 
-const InitialsMap = ({ indexByInitial, onSelectInitial }) => {
+const InitialsMap = forwardRef(({ indexByInitial, onSelectInitial }, ref) => {
   const effectiveIndexMap = indexByInitial ?? EMPTY_MAP;
 
   return (
-    <InitialMapWrapper role="navigation" aria-label="Artists by initial">
+    <InitialMapWrapper
+      ref={ref}
+      role="navigation"
+      aria-label="Artists by initial"
+    >
       {ALPHABET.map((initial) => (
         <InitialButton
           key={initial}
@@ -21,6 +25,8 @@ const InitialsMap = ({ indexByInitial, onSelectInitial }) => {
       ))}
     </InitialMapWrapper>
   );
-};
+});
+
+InitialsMap.displayName = "InitialsMap";
 
 export default InitialsMap;

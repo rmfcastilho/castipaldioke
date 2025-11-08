@@ -4,9 +4,7 @@ const ListTypeWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  width: 50%;
   justify-content: space-between;
-  padding: 0 1rem;
   margin-top: 2rem;
 `;
 

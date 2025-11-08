@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FixedSizeList as List } from "react-window";
 
 import SongCell from "../SongCell";
@@ -28,8 +34,12 @@ const getInitial = (value) => {
   return /^\d$/.test(firstChar) ? "#" : firstChar.toUpperCase();
 };
 
+const DEFAULT_LIST_HEIGHT = 680;
+
 const SongList = ({ songList }) => {
   const listRef = useRef(null);
+  const initialsMapRef = useRef(null);
+  const [listHeight, setListHeight] = useState(DEFAULT_LIST_HEIGHT);
 
   const indexByInitial = useMemo(() => {
     const map = new Map();
@@ -48,6 +58,39 @@ const SongList = ({ songList }) => {
 
     return map;
   }, [songList]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const node = initialsMapRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const measure = () => {
+      const { height } = node.getBoundingClientRect();
+
+      if (Number.isFinite(height) && height > 0) {
+        setListHeight(Math.max(DEFAULT_LIST_HEIGHT, Math.ceil(height)));
+      }
+    };
+
+    measure();
+
+    if (typeof window.ResizeObserver === "function") {
+      const observer = new window.ResizeObserver(measure);
+      observer.observe(node);
+
+      return () => observer.disconnect();
+    }
+
+    const timeoutId = window.setTimeout(measure, 100);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [songList.length]);
 
   const handleSelectInitial = useCallback(
     (initial) => {
@@ -92,10 +135,15 @@ const SongList = ({ songList }) => {
 
   return (
     <SongListWrapper>
+      <InitialsMap
+        ref={initialsMapRef}
+        indexByInitial={indexByInitial}
+        onSelectInitial={handleSelectInitial}
+      />
       <SongListViewport>
         <List
           ref={listRef}
-          height={680}
+          height={listHeight}
           itemCount={songList.length}
           itemKey={itemKey}
           itemSize={82}
@@ -105,10 +153,6 @@ const SongList = ({ songList }) => {
           {SongRow}
         </List>
       </SongListViewport>
-      <InitialsMap
-        indexByInitial={indexByInitial}
-        onSelectInitial={handleSelectInitial}
-      />
     </SongListWrapper>
   );
 };

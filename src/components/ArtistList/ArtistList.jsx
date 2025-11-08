@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FixedSizeList as List } from "react-window";
 
 import { ArtistListViewport, ArtistListWrapper } from "./styles";
@@ -24,8 +30,12 @@ const getInitial = (value) => {
   return /^\d$/.test(firstChar) ? "#" : firstChar.toUpperCase();
 };
 
+const DEFAULT_LIST_HEIGHT = 680;
+
 const ArtistList = ({ onSelectArtist, songList }) => {
   const listRef = useRef(null);
+  const initialsMapRef = useRef(null);
+  const [listHeight, setListHeight] = useState(DEFAULT_LIST_HEIGHT);
 
   const { artistList, indexByInitial } = useMemo(() => {
     const uniqueArtists = Array.from(
@@ -42,15 +52,57 @@ const ArtistList = ({ onSelectArtist, songList }) => {
       }
     });
 
+    if (!initialIndexMap.has("#") && uniqueArtists.length > 0) {
+      initialIndexMap.set("#", 0);
+    }
+
     return {
       artistList: uniqueArtists,
       indexByInitial: initialIndexMap,
     };
   }, [songList]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const node = initialsMapRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const measure = () => {
+      const { height } = node.getBoundingClientRect();
+
+      if (Number.isFinite(height) && height > 0) {
+        setListHeight(Math.max(DEFAULT_LIST_HEIGHT, Math.ceil(height)));
+      }
+    };
+
+    measure();
+
+    if (typeof window.ResizeObserver === "function") {
+      const observer = new window.ResizeObserver(measure);
+      observer.observe(node);
+
+      return () => observer.disconnect();
+    }
+
+    const timeoutId = window.setTimeout(measure, 100);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [artistList.length]);
+
   const handleSelectInitial = useCallback(
     (initial) => {
       if (!listRef.current) {
+        return;
+      }
+
+      if (initial === "#") {
+        listRef.current.scrollToItem(0, "start");
         return;
       }
 
@@ -78,10 +130,15 @@ const ArtistList = ({ onSelectArtist, songList }) => {
 
   return (
     <ArtistListWrapper>
+      <InitialsMap
+        ref={initialsMapRef}
+        indexByInitial={indexByInitial}
+        onSelectInitial={handleSelectInitial}
+      />
       <ArtistListViewport>
         <List
           ref={listRef}
-          height={680}
+          height={listHeight}
           itemCount={artistList.length}
           itemKey={itemKey}
           itemSize={60}
@@ -90,11 +147,6 @@ const ArtistList = ({ onSelectArtist, songList }) => {
           {ArtistRow}
         </List>
       </ArtistListViewport>
-
-      <InitialsMap
-        indexByInitial={indexByInitial}
-        onSelectInitial={handleSelectInitial}
-      />
     </ArtistListWrapper>
   );
 };

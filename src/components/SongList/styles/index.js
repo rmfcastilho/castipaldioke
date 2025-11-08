@@ -4,11 +4,13 @@ export const SongListWrapper = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
-  align-items: flex-start;
+  align-items: stretch;
+  padding-top: 1rem;
 `;
 
 export const SongListViewport = styled.div`
   flex: 1;
+  min-width: 0;
 `;
 
 export const SongCellWrapper = styled.div`
@@ -16,11 +18,11 @@ export const SongCellWrapper = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none;
   }
 `;
