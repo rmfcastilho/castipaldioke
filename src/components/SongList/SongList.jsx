@@ -12,7 +12,10 @@ import InitialsMap from "../InitialsMap";
 
 import {
   SongCellWrapper,
+  SongListControls,
   SongListViewport,
+  SongListToggleInput,
+  SongListToggleLabel,
   SongListWrapper,
 } from "./styles";
 
@@ -39,12 +42,23 @@ const DEFAULT_LIST_HEIGHT = 680;
 const SongList = ({ songList }) => {
   const listRef = useRef(null);
   const initialsMapRef = useRef(null);
+  const [hideJapanese, setHideJapanese] = useState(true);
   const [listHeight, setListHeight] = useState(DEFAULT_LIST_HEIGHT);
+
+  const filteredSongs = useMemo(() => {
+    if (!hideJapanese) {
+      return songList;
+    }
+
+    return songList.filter(
+      (song) => (song.language ?? "").toUpperCase() !== "JAP"
+    );
+  }, [hideJapanese, songList]);
 
   const indexByInitial = useMemo(() => {
     const map = new Map();
 
-    songList.forEach((song, index) => {
+    filteredSongs.forEach((song, index) => {
       const initial = getInitial(song.artist ?? song.title ?? "");
 
       if (!map.has(initial)) {
@@ -52,12 +66,12 @@ const SongList = ({ songList }) => {
       }
     });
 
-    if (!map.has("#") && songList.length > 0) {
+    if (!map.has("#") && filteredSongs.length > 0) {
       map.set("#", 0);
     }
 
     return map;
-  }, [songList]);
+  }, [filteredSongs]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -90,7 +104,7 @@ const SongList = ({ songList }) => {
     const timeoutId = window.setTimeout(measure, 100);
 
     return () => window.clearTimeout(timeoutId);
-  }, [songList.length]);
+  }, [filteredSongs.length]);
 
   const handleSelectInitial = useCallback(
     (initial) => {
@@ -116,7 +130,7 @@ const SongList = ({ songList }) => {
 
   const itemKey = useCallback(
     (index) => {
-      const song = songList[index];
+      const song = filteredSongs[index];
 
       if (!song) {
         return index;
@@ -124,36 +138,53 @@ const SongList = ({ songList }) => {
 
       return `${song.artist ?? "unknown"}-${song.title ?? index}`;
     },
-    [songList]
+    [filteredSongs]
   );
+
+  const handleToggleHideJapanese = useCallback((event) => {
+    setHideJapanese(event.target.checked);
+  }, []);
 
   const SongRow = ({ index, style }) => (
     <div style={{ ...style, margin: "0.5rem 0" }}>
-      <SongCell {...songList[index]} />
+      <SongCell {...filteredSongs[index]} />
     </div>
   );
 
   return (
-    <SongListWrapper>
-      <InitialsMap
-        ref={initialsMapRef}
-        indexByInitial={indexByInitial}
-        onSelectInitial={handleSelectInitial}
-      />
-      <SongListViewport>
-        <List
-          ref={listRef}
-          height={listHeight}
-          itemCount={songList.length}
-          itemKey={itemKey}
-          itemSize={82}
-          width="100%"
-          outerElementType={SongCellWrapper}
-        >
-          {SongRow}
-        </List>
-      </SongListViewport>
-    </SongListWrapper>
+    <>
+      <SongListControls>
+        <SongListToggleLabel>
+          <SongListToggleInput
+            checked={hideJapanese}
+            onChange={handleToggleHideJapanese}
+            type="checkbox"
+          />
+          Esconder músicas em japonês
+        </SongListToggleLabel>
+      </SongListControls>
+
+      <SongListWrapper>
+        <InitialsMap
+          ref={initialsMapRef}
+          indexByInitial={indexByInitial}
+          onSelectInitial={handleSelectInitial}
+        />
+        <SongListViewport>
+          <List
+            ref={listRef}
+            height={listHeight}
+            itemCount={filteredSongs.length}
+            itemKey={itemKey}
+            itemSize={82}
+            width="100%"
+            outerElementType={SongCellWrapper}
+          >
+            {SongRow}
+          </List>
+        </SongListViewport>
+      </SongListWrapper>
+    </>
   );
 };
 

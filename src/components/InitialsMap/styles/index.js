@@ -7,6 +7,6 @@ export const InitialMapWrapper = styled.div`
   justify-content: center;
   gap: 0.25rem;
   flex-shrink: 0;
-  align-self: stretch;
-  padding-top: 1.25rem;
+  align-self: flex-start;
+  padding-top: 0.75rem;
 `;

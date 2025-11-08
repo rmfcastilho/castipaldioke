@@ -4,7 +4,7 @@ export const ArtistListWrapper = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
-  align-items: stretch;
+  align-items: flex-start;
   padding-top: 1rem;
 `;
 
