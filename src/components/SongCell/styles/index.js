@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 const SongCellWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   box-sizing: border-box;
@@ -22,15 +23,17 @@ const SongCellMeta = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
 `;
 
-const SongTitle = styled.h3`
+const SongTitle = styled.span`
+  display: block;
   font-size: 1rem;
   font-weight: bold;
   margin: 0;
   text-align: left;
   color: rgb(0, 64, 156);
-  max-width: 15em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -61,6 +64,7 @@ const SongCode = styled.span`
   text-align: left;
   letter-spacing: 1.25px;
   font-weight: 500;
+  flex-shrink: 0;
 
   @media (min-width: 760px) {
     font-size: 1.5rem;
